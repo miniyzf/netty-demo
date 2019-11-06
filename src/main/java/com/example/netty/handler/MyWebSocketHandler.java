@@ -148,7 +148,6 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
 
     }
 
-    /*******************************************以上重写**********************************************************/
 
     /**
      * 处理客户端与服务端之前的websocket业务

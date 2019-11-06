@@ -7,11 +7,11 @@
 <body>
 <form onSubmit="return false;">
     <label>ID</label><input type="text" name="uid" th:value="${uid}" /> <br />
-    <label>TEXT</label><input type="text" name="message" value="" placeholder="这里输入消息"/> <br />
+    <label>消息</label><input type="text" name="message" value="" placeholder="这里输入消息"/> <br />
     <br /> <input type="button" value="发送ws消息"
                   onClick="send(JSON.stringify({uid:this.form.uid.value,msg:this.form.message.value}))" />
     <hr color="black" />
-    <h3>服务端返回的应答消息</h3>
+    <h3>netty</h3>
     <textarea id="responseText" style="width: 1024px;height: 300px;"></textarea>
 </form>
 <script type="text/javascript">
