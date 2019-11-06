@@ -1,0 +1,32 @@
+//syntax="proto2"：编译器2版本，各个字段必须明确标注编号以确定序列化后二进制数据字段的位置
+//syntax="proto3"：编译器3版本，没有强制使用字段编号，proto3 已舍弃 required 字段，optional 字段也无法显示使用
+syntax = "proto3";
+// 生成类的包名
+option java_package = "com.example.netty.model";
+//生成类的类名,ProtoDemo 不能与 message 名称 Student 相同（区分大小写）
+option java_outer_classname = "ProtoDemo";
+
+message Student {
+    int32 id = 1;
+    string name = 2;
+    string email = 3;
+    //枚举类
+    enum Sex {
+        MAN = 0;
+        WOMAN = 1;
+    }
+    Sex sex = 4 ;
+
+    enum PhoneType{
+        MOBILE = 0;
+        HOME = 1;
+        WORK = 2;
+    }
+    //内部类
+    message PhoneNumber {
+        string number = 1;
+        PhoneType type = 2 ;
+    }
+    //集合
+    repeated PhoneNumber phone = 5;
+}

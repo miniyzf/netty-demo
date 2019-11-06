@@ -1,0 +1,48 @@
+<!DOCTYPE>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Netty-Websocket</title>
+</head>
+<body>
+<form onSubmit="return false;">
+    <label>ID</label><input type="text" name="uid" th:value="${uid}" /> <br />
+    <label>TEXT</label><input type="text" name="message" value="" placeholder="这里输入消息"/> <br />
+    <br /> <input type="button" value="发送ws消息"
+                  onClick="send(JSON.stringify({uid:this.form.uid.value,msg:this.form.message.value}))" />
+    <hr color="black" />
+    <h3>服务端返回的应答消息</h3>
+    <textarea id="responseText" style="width: 1024px;height: 300px;"></textarea>
+</form>
+<script type="text/javascript">
+    var uid = [[${uid}]];
+    var socket;
+    if(window.WebSocket){
+        // socket = new WebSocket("ws://127.0.0.1:1234/ws?uid="+uid);
+        socket = new WebSocket("ws://192.168.0.168:1234/ws?uid="+uid);
+        socket.onmessage = function(event){
+            var ta = document.getElementById('responseText');
+            ta.value += event.data+"\r\n";
+        };
+        socket.onopen = function(event){
+            var ta = document.getElementById('responseText');
+            ta.value = "Netty-WebSocket服务器。。。。。。连接  \r\n";
+        };
+        socket.onclose = function(event){
+            var ta = document.getElementById('responseText');
+            ta.value = "Netty-WebSocket服务器。。。。。。关闭 \r\n";
+        };
+    }else{
+        alert("您的浏览器不支持WebSocket协议！");
+    }
+    function send(message){
+        if(!window.WebSocket){return;}
+        if(socket.readyState == WebSocket.OPEN){
+            socket.send(message);
+        }else{
+            alert("WebSocket 连接没有建立成功！");
+        }
+    }
+</script>
+</body>
+</html>
