@@ -45,7 +45,8 @@ public class NettyServer {
                             pipe.addLast(new ChunkedWriteHandler());
                             pipe.addLast(new HttpObjectAggregator(8192));
                             pipe.addLast(new MyWebSocketHandler());
-                            pipe.addLast(new WebSocketServerProtocolHandler("/ws", null, true, 65536 * 10));
+                            // html页面 new WebSocket("ws://192.168.0.168:1234/wsPath?uid="+uid);
+                            pipe.addLast(new WebSocketServerProtocolHandler("/wsPath", null, true, 65536 * 10));
                         }
                     });
             // 服务器异步创建绑定

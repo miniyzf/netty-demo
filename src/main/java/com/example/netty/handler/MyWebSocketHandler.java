@@ -31,6 +31,9 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
     private static ConcurrentHashMap<Channel,String> clientCU = new ConcurrentHashMap<Channel,String>();
 
     private WebSocketServerHandshaker handshaker;
+
+    private int i=0;
+
     /*
      *  服务端收到新的客户端连接，将客户端的 Channel 存入 ChannelGroup 列表，并通知列表中的其他客户端 Channel
      */
@@ -168,11 +171,20 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
         // 每当从服务端读到客户端写入信息时，将信息转发给其他客户端的 Channel
         if (frame instanceof TextWebSocketFrame) {
             TextWebSocketFrame msg = (TextWebSocketFrame) frame;
-            JSONObject message = JSONObject.fromObject(msg.text());
 
+            JSONObject message = null;
+            try {
+                message = JSONObject.fromObject(msg.text());
+            } catch (Exception e) {
+                message = JSONObject.fromObject("{\"uid\":\""+clientCU.get(ctx.channel())+"\",\"msg\":\"消息接收异常\"}");
+                e.printStackTrace();
+            }
+//            JSONObject message = message = JSONObject.fromObject(msg.text());
+            ++i;
+            System.out.println((i)+"msg--" + message.toString());
             for(String id : clientUC.keySet()){
                 if(id.equals(message.getString("uid"))){
-                    ctx.channel().writeAndFlush(new TextWebSocketFrame("[自己]" + message.get("msg").toString()));
+                    ctx.channel().writeAndFlush(new TextWebSocketFrame("["+i+"自己]" + message.get("msg").toString()));
                 }else{
                     clientUC.get(id).writeAndFlush(new TextWebSocketFrame(message.getInt("uid")+" : "+message.get("msg").toString()));
                 }
