@@ -1,5 +1,6 @@
 package com.example.netty.handler;
 
+import com.alibaba.fastjson.JSON;
 import com.example.netty.common.Common;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -176,17 +177,25 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
             try {
                 message = JSONObject.fromObject(msg.text());
             } catch (Exception e) {
-                message = JSONObject.fromObject("{\"uid\":\""+clientCU.get(ctx.channel())+"\",\"msg\":\"消息接收异常\"}");
+                message = JSONObject.fromObject("{\"uid\":\""+clientCU.get(ctx.channel())+"\",\"msg\":\"消息接收异常\",\"type\":1}");
                 e.printStackTrace();
             }
 //            JSONObject message = message = JSONObject.fromObject(msg.text());
             ++i;
-            System.out.println((i)+"msg--" + message.toString());
+            /*System.out.println((i)+"msg--" + message.toString());
             for(String id : clientUC.keySet()){
                 if(id.equals(message.getString("uid"))){
                     ctx.channel().writeAndFlush(new TextWebSocketFrame("["+i+"自己]" + message.get("msg").toString()));
                 }else{
                     clientUC.get(id).writeAndFlush(new TextWebSocketFrame(message.getInt("uid")+" : "+message.get("msg").toString()));
+                }
+            }*/
+
+            for(String id : clientUC.keySet()){
+                if(id.equals(message.getString("uid"))){
+                    ctx.channel().writeAndFlush(new TextWebSocketFrame(message.toString()));
+                }else{
+                    clientUC.get(id).writeAndFlush(new TextWebSocketFrame(message.toString()));
                 }
             }
 

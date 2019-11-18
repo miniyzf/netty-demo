@@ -9,7 +9,7 @@
     <label>ID</label><input type="text" name="uid" th:value="${uid}" /> <br />
     <label>消息</label><input type="text" id="message" name="message" value="" placeholder="这里输入消息" style="min-height: 250px;width: 1000px;"/> <br />
     <br /> <input id="btn" type="button" value="发送ws消息"
-                  onClick="send(JSON.stringify({uid:this.form.uid.value,msg:this.form.message.value}))" />
+                  onClick="send(JSON.stringify({uid:this.form.uid.value,msg:this.form.message.value,type:1}))" />
     <hr color="black" />
     <h3>netty</h3>
     <textarea id="responseText" style="width: 1024px;height: 300px;"></textarea>
@@ -22,8 +22,9 @@
         socket = new WebSocket("ws://192.168.0.168:1234/wsPath?uid="+uid);
         socket.onmessage = function(event){
             console.log("接收：" + (++m));
+            var message = JSON.parse(event.data);
             var ta = document.getElementById('responseText');
-            ta.value += event.data+"\r\n";
+            ta.value += "【" + message.uid + "】" +message.msg+"\r\n";
         };
         socket.onopen = function(event){
             var ta = document.getElementById('responseText');

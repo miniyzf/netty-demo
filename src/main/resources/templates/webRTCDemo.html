@@ -1,0 +1,36 @@
+<!DOCTYPE>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>WebRTC Demo</title>
+
+    <link rel="stylesheet" href="../static/rtc-demo/css/webRTCDemo.css" />
+
+</head>
+
+<body>
+
+    <h1>WebRTC Demo</h1>
+
+    <div id="buttons">
+        <button id="startCall" type="button">Start Call</button>
+        <button id="endCall" type="button">End Call</button>
+    </div>
+
+    <div id="videos">
+        <video id="localVideo" autoplay muted playsinline></video>
+        <video id="remoteVideo" autoplay playsinline></video>
+    </div>
+
+    <div>
+        <input type="text" name="text" id="text"/>
+        <button type="button" name="send" id="send" onclick="sendMsg()">发送</button>
+        <textarea id="message" style="width: 640px;height: 300px;display: block;"></textarea>
+    </div>
+
+    <script src="../static/rtc-demo/js/adapter-latest.js"></script>
+    <script src="../static/rtc-demo/js/webRTCDemo.js"></script>
+
+</body>
+
+</html>
