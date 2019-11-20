@@ -1,0 +1,31 @@
+<!DOCTYPE>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>SimpleWebRTC Demo</title>
+
+    <link rel="stylesheet" th:href="@{/static/rtc-demo/css/simpleWebRTCDemo.css}" />
+
+</head>
+
+<body>
+
+    <h1>SimpleWebRTC Demo</h1>
+
+    <p id="mediaMk"></p>
+    <div style="width: 500px;height: 400px;border: 1px solid bisque;">
+        <video id="localVideo"></video>
+        <div id="remoteVideos"></div>
+    </div>
+
+    <div>
+        <input type="text" name="text" id="text"/>
+        <button type="button" name="send" id="send" value="发送">发送</button>
+        <textarea id="message" style="width: 1000px;height: 300px;display: block;"></textarea>
+    </div>
+    <script th:src="@{/static/rtc-demo/js/latest-v2.js}"></script>
+    <script th:src="@{/static/rtc-demo/js/simpleWebRTCDemo.js}"></script>
+
+</body>
+
+</html>

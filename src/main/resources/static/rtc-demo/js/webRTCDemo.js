@@ -15,7 +15,7 @@ var room = "123";
 if(!window.WebSocket){
     console.log("您的浏览器不支持WebSocket协议！");
 }else {
-    socket = new WebSocket("ws://192.168.0.168:1234/wsPath?uid="+localUserId);
+    socket = new WebSocket("ws://localhost:8083/wsPath?uid="+localUserId);
 
     socket.onopen =  function() {
         console.log("Signal server connected !");
@@ -130,6 +130,7 @@ var remoteVideo = document.querySelector('#remoteVideo');
 
 
 //  -------------------------------------------------------------------------------------------------------------------->
+/*
 // Older browsers might not implement mediaDevices at all, so we set an empty object first
 if (navigator.mediaDevices === undefined) {
     navigator.mediaDevices = {};
@@ -156,45 +157,30 @@ if (navigator.mediaDevices.getUserMedia === undefined) {
         });
     }
 }
-navigator.mediaDevices.getUserMedia({
-    audio: true,
-    video: true
-}).then(openLocalStream)
-    .catch(function(e) {
-        console.error("getUserMedia() error: " + e.name);
-        alert('getUserMedia() error: ' + e.name);
-    });
+*/
 
-
-//  <--------------------------------------------------------------------------------------------------------------------
-
-
-//  -------------------------------------------------------------------------------------------------------------------->
-/*if(navigator.getUserMedia){
-    console.log("Api : navigator.getUserMedia");
-    /!*
+function hasGetUserMedia(){
+    return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+}
+if(hasGetUserMedia()){
+    /*
     * 获取设备的媒体流（即 MediaStream）
     * 旧 api 接口: navigator.getUserMedia
-    *!/
-    navigator.getUserMedia = navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia ||
-        navigator.msGetUserMedia;
+    */
+    /*navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
     navigator.getUserMedia({
         audio: true,
         video: true
-    },openLocalStream,function(e) {
+    },openLocalStream,(e)=> {
         console.error("getUserMedia() error: " + e.name);
         alert('getUserMedia() error: ' + e.name);
-    });
-}else if (navigator.mediaDevices){
-    console.log("Api : navigator.mediaDevices.getUserMedia");
-    /!*
+    });*/
+    /*
     * 获取设备的媒体流（即 MediaStream）
     * 新 api 接口: navigator.mediaDevices.getUserMedia
     * 本地测试OK
     * ip网址访问，需要 https 协议
-    *!/
+    */
     navigator.mediaDevices.getUserMedia({
         audio: true,
         video: true
@@ -204,47 +190,9 @@ navigator.mediaDevices.getUserMedia({
             alert('getUserMedia() error: ' + e.name);
         });
 }else {
-    console.log("Not : navigator.mediaDevices.getUserMedia || navigator.getUserMedia");
-}*/
-//  <--------------------------------------------------------------------------------------------------------------------
-
-/*function getUserMedia(obj,success,error){
-    console.log(1);
-    if(navigator.getUserMedia){
-        console.log(2);
-        getUserMedia=function(obj,success,error){
-            navigator.getUserMedia(obj,function(stream){
-                success(stream);
-            },error);
-        }
-    }else if(navigator.webkitGetUserMedia){
-        console.log(3);
-        getUserMedia=function(obj,success,error){
-            navigator.webkitGetUserMedia(obj,function(stream){
-                var _URL=window.URL || window.webkitURL;
-                success(_URL.createObjectURL(stream));
-            },error);
-        }
-    }else if(navigator.mozGetUserMedia){
-        console.log(4);
-        getUserMedia=function(obj,success,error){
-            navigator.mozGetUserMedia(obj,function(stream){
-                success(window.URL.createObjectURL(stream));
-            },error);
-        }
-    }else{
-        console.log(5);
-        return false;
-    }
-    return getUserMedia(obj,success,error);
+    console.log('getUserMedia() is not supported by your browser');
 }
-getUserMedia({audio: true,video:true},function(stream){
-    console.log('Open local video stream');
-    localVideo.srcObject = stream;
-    localStream = stream;
-},function(){});*/
-
-
+//  <--------------------------------------------------------------------------------------------------------------------
 
 function openLocalStream(stream) {
     console.log('Open local video stream');

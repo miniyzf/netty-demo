@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>WebRTC Demo</title>
 
-    <link rel="stylesheet" href="../static/rtc-demo/css/webRTCDemo.css" />
+    <link rel="stylesheet" th:href="@{/static/rtc-demo/css/webRTCDemo.css}" />
 
 </head>
 
@@ -28,8 +28,8 @@
         <textarea id="message" style="width: 640px;height: 300px;display: block;"></textarea>
     </div>
 
-    <script src="../static/rtc-demo/js/adapter-latest.js"></script>
-    <script src="../static/rtc-demo/js/webRTCDemo.js"></script>
+    <script th:src="@{/static/rtc-demo/js/adapter-latest.js}"></script>
+    <script src="static/rtc-demo/js/webRTCDemo.js"></script>
 
 </body>
 

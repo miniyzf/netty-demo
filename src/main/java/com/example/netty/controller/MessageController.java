@@ -3,6 +3,7 @@ package com.example.netty.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.example.netty.utils.UuidUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -46,5 +47,11 @@ public class MessageController {
         JSONObject object = new JSONObject(map);
         //System.out.println(object.toJSONString());
         return object.toJSONString();
+    }
+
+    @GetMapping("/webrtc")
+    public ModelAndView test1(){
+        ModelAndView mav = new ModelAndView("/webrtc");
+        return mav;
     }
 }

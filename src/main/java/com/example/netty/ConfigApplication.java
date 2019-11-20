@@ -9,7 +9,7 @@ public class ConfigApplication implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/data/glory/**").addResourceLocations("file:E:/data/glory/");
+//        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
         registry.addResourceHandler("/data/**").addResourceLocations("file:/data/");
     }
 }
