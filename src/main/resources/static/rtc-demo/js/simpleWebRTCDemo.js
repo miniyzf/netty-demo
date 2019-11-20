@@ -8,7 +8,7 @@ var room = "123";
 if(!window.WebSocket){
     console.log("您的浏览器不支持WebSocket协议！");
 }else {
-    socket = new WebSocket("ws://192.168.0.168:1234/wsPath?uid="+userId);
+    socket = new WebSocket("ws://192.168.0.168:8083/wsPath?uid="+userId);
 
     socket.onopen =  function() {
         console.log("Signal server connected !");
@@ -32,6 +32,7 @@ if(!window.WebSocket){
             return;
         }
         console.log('Broadcast Received: ', msg.userId);
+        document.getElementById('messages').append(msg + '\r\n');
     };
 }
 
@@ -43,7 +44,14 @@ function send(msg){
         console.log("WebSocket 连接没有建立成功！");
     }
 }
-
+document.getElementById("send").addEventListener('click',function () {
+    var msg = document.getElementById("text").value;
+    if(msg.trim().length > 0){
+        send(msg);
+        return;
+    }
+    console.log('消息不能为空！');
+});
 
 var webrtc = new SimpleWebRTC({
     // the id/element dom element that will hold "our" video
@@ -54,7 +62,7 @@ var webrtc = new SimpleWebRTC({
     autoRequestMedia: true,
     //media: {video: true, audio: true},
     //配置成自己的 signal 服务器
-    url:'192.168.0.168',
+    url:'http://192.168.0.168:8082/NettyDemo/',
     //文本聊天时，用户的昵称
     nick: 'btcx'
 });

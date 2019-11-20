@@ -12,7 +12,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class Netty1ApplicationTests {
+public class NettyDemoApplicationTests {
 
     @Test
     public void contextLoads() {

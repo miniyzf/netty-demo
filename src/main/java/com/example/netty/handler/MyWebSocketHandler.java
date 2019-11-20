@@ -1,6 +1,5 @@
 package com.example.netty.handler;
 
-import com.alibaba.fastjson.JSON;
 import com.example.netty.common.Common;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -25,7 +24,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
-    //保留所有与服务器建立连接的channel对象
+    /**
+     * 保留所有与服务器建立连接的channel对象
+     */
     private static ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     private static ConcurrentHashMap<String,Channel> clientUC = new ConcurrentHashMap<String, Channel>();
@@ -35,7 +36,7 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
 
     private int i=0;
 
-    /*
+    /**
      *  服务端收到新的客户端连接，将客户端的 Channel 存入 ChannelGroup 列表，并通知列表中的其他客户端 Channel
      */
     @Override
@@ -48,7 +49,7 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
         channelGroup.add(ctx.channel());
     }
 
-    /*
+    /**
      * 服务端监听到客户端活动
      */
     @Override
@@ -56,7 +57,7 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
         System.out.println("Client:" + ctx.channel().remoteAddress() + "上线");
     }
 
-    /*
+    /**
      * 客户端与服务端断开连接的时候调用
      */
     @Override
@@ -64,7 +65,7 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
         System.out.println("Client:" + ctx.channel().remoteAddress() + "下线");
     }
 
-    /*
+    /**
      * 服务端收到客户端断开时，将客户端的 Channel 移除 ChannelGroup 列表，并通知列表中的其他客户端 Channel
      */
     @Override
@@ -80,7 +81,7 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
         clientCU.remove(ctx.channel());
     }
 
-    /*
+    /**
      * 服务端接收客户端发送过来的数据结束之后调用
      */
     @Override
@@ -88,7 +89,7 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
         ctx.flush();
     }
 
-    /*
+    /**
      * 当出现 Throwable 对象才会被调用，即当 Netty 由于 IO 错误或者处理器在处理事件时抛出的异常时。
      * 在大部分情况下，捕获的异常应该被记录下来并且把关联的 channel 给关闭掉。
      */
@@ -100,7 +101,7 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
         ctx.close();
     }
 
-    /*
+    /**
      * 服务端处理客户端webSocket请求的核心方法
      */
     @Override

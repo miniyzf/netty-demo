@@ -15,7 +15,7 @@ var room = "123";
 if(!window.WebSocket){
     console.log("您的浏览器不支持WebSocket协议！");
 }else {
-    socket = new WebSocket("ws://localhost:8083/wsPath?uid="+localUserId);
+    socket = new WebSocket("ws://192.168.0.168:8083/wsPath?uid="+localUserId);
 
     socket.onopen =  function() {
         console.log("Signal server connected !");
@@ -190,7 +190,7 @@ if(hasGetUserMedia()){
             alert('getUserMedia() error: ' + e.name);
         });
 }else {
-    console.log('getUserMedia() is not supported by your browser');
+    console.error('getUserMedia() is not supported by your browser');
 }
 //  <--------------------------------------------------------------------------------------------------------------------
 

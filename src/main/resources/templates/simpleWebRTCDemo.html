@@ -18,11 +18,13 @@
         <div id="remoteVideos"></div>
     </div>
 
-    <div>
-        <input type="text" name="text" id="text"/>
-        <button type="button" name="send" id="send" value="发送">发送</button>
-        <textarea id="message" style="width: 1000px;height: 300px;display: block;"></textarea>
-    </div>
+
+        <form onSubmit="return false;">
+            <input type="text" name="text" id="text"/>
+            <input type="button" id="send" value="发送"/>
+            <textarea id="messages" style="width: 1000px;height: 300px;display: block;"></textarea>
+        </form>
+
     <script th:src="@{/static/rtc-demo/js/latest-v2.js}"></script>
     <script th:src="@{/static/rtc-demo/js/simpleWebRTCDemo.js}"></script>
 

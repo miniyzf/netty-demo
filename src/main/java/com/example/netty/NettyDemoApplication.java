@@ -6,10 +6,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Netty1Application {
+public class NettyDemoApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Netty1Application.class, args);
+        SpringApplication.run(NettyDemoApplication.class, args);
 
         try {
             new NettyServer(Common.WEB_SOCKET_PORT).start();

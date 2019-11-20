@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>netty1</artifactId>
+    <artifactId>netty-demo</artifactId>
     <version>1</version>
     <packaging>war</packaging>
-    <name>netty1</name>
+    <name>netty-demo</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -124,11 +124,11 @@
             <artifactId>protobuf-java</artifactId>
             <version>${protobuf.version}</version>
         </dependency>
-        <!--<dependency>
+        <dependency>
             <groupId>com.googlecode.protobuf-java-format</groupId>
             <artifactId>protobuf-java-format</artifactId>
             <version>1.4</version>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java-util</artifactId>

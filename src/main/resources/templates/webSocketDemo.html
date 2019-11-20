@@ -18,7 +18,7 @@
     var uid = [[${uid}]];
     var socket,m=0,n=0;
     if(window.WebSocket){
-        socket = new WebSocket("ws://localhost:8083/wsPath?uid="+uid);
+        socket = new WebSocket("ws://192.168.0.168:8083/wsPath?uid="+uid);
         socket.onmessage = function(event){
             console.log("接收：" + (++m));
             var message = JSON.parse(event.data);
