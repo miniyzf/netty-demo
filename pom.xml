@@ -157,6 +157,8 @@
                     <protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
                     <pluginId>grpc-java</pluginId>
                     <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}</pluginArtifact>
+                    <!-- 特别说明：编译生成 protobuf 的.java文件会覆盖掉 outputDirectory 路径下所有文件 -->
+<!--                    <outputDirectory>${basedir}/src/main/java/com/example/netty/model/common</outputDirectory>-->
                 </configuration>
                 <executions>
                     <execution>
