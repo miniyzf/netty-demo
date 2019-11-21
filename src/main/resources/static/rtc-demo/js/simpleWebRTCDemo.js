@@ -62,7 +62,7 @@ var webrtc = new SimpleWebRTC({
     autoRequestMedia: true,
     //media: {video: true, audio: true},
     //配置成自己的 signal 服务器
-    url:'http://192.168.0.168:8082/NettyDemo/',
+    // url:'http://192.168.0.168:8082',
     //文本聊天时，用户的昵称
     nick: 'btcx'
 });

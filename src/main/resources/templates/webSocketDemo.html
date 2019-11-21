@@ -15,12 +15,15 @@
     <textarea id="responseText" style="width: 1024px;height: 300px;"></textarea>
 </form>
 <script type="text/javascript">
-    var uid = [[${uid}]];
-    var socket,m=0,n=0;
+    var uid = [[${uid}]],indexType=[[${indexType}]];
+    var socket=null,m=0,n=0;
+
     if(window.WebSocket){
         socket = new WebSocket("ws://192.168.0.168:8083/wsPath?uid="+uid);
+
         socket.onmessage = function(event){
-            console.log("接收：" + (++m));
+            // console.log("接收：" + (++m));
+
             var message = JSON.parse(event.data);
             var ta = document.getElementById('responseText');
             ta.value += "【" + message.uid + "】" +message.msg+"\r\n";
@@ -39,21 +42,23 @@
     function send(message){
         if(!window.WebSocket){return;}
         if(socket.readyState == WebSocket.OPEN){
-            console.log(uid+"send前buf："+socket.bufferedAmount);
+            // console.log(uid+"send前buf："+socket.bufferedAmount);
             socket.send(message);
-            console.log(uid+"send后buf："+socket.bufferedAmount);
-            console.log("发送：" + (++n));
+            // console.log(uid+"send后buf："+socket.bufferedAmount);
+            // console.log("发送：" + (++n));
         }else{
             console.log("WebSocket 连接没有建立成功！");
         }
     }
 </script>
-<!--<script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/word.js}"></script>
 <script>
-    setTimeout(function () {
-        wordAuto();
-    },2000)
-</script>-->
+    if(indexType==1){
+        setTimeout(function () {
+            wordAuto();
+        },2000)
+    }
+</script>
 </body>
 </html>

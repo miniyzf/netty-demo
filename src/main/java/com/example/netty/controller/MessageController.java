@@ -23,6 +23,15 @@ public class MessageController {
         ModelAndView mav=new ModelAndView("/webSocketDemo");
         String uid = UuidUtil.get6NumberUUID(6);
         mav.addObject("uid", uid);
+        mav.addObject("indexType",0);
+        return mav;
+    }
+    @RequestMapping("/send")
+    public ModelAndView  indexSend(){
+        ModelAndView mav=new ModelAndView("/webSocketDemo");
+        String uid = UuidUtil.get6NumberUUID(6);
+        mav.addObject("uid", uid);
+        mav.addObject("indexType",1);
         return mav;
     }
 
