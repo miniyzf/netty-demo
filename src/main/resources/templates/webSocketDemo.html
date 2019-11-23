@@ -15,11 +15,14 @@
     <textarea id="responseText" style="width: 1024px;height: 300px;"></textarea>
 </form>
 <script type="text/javascript">
-    var uid = [[${uid}]],indexType=[[${indexType}]];
+    var uid = '[[${uid}]]'
+        , indexType = '[[${indexType}]]'
+        , wsUrl = '[[${wsUrl}]]';
+
     var socket=null,m=0,n=0;
 
     if(window.WebSocket){
-        socket = new WebSocket("ws://192.168.0.168:8083/wsPath?uid="+uid);
+        socket = new WebSocket(wsUrl + "?uid="+uid);
 
         socket.onmessage = function(event){
             // console.log("接收：" + (++m));

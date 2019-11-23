@@ -1,6 +1,7 @@
 package com.example.netty.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.netty.common.Common;
 import com.example.netty.utils.UuidUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,7 @@ public class MessageController {
         String uid = UuidUtil.get6NumberUUID(6);
         mav.addObject("uid", uid);
         mav.addObject("indexType",0);
+        mav.addObject("wsUrl", Common.WEBSOCKET_Client_URL);
         return mav;
     }
     @RequestMapping("/send")
@@ -32,20 +34,21 @@ public class MessageController {
         String uid = UuidUtil.get6NumberUUID(6);
         mav.addObject("uid", uid);
         mav.addObject("indexType",1);
+        mav.addObject("wsUrl", Common.WEBSOCKET_Client_URL);
         return mav;
     }
 
     @RequestMapping("/demo")
     public ModelAndView  demo(){
         ModelAndView mav=new ModelAndView("/webRTCDemo");
+        mav.addObject("wsUrl", Common.WEBSOCKET_Client_URL);
         return mav;
     }
 
     @RequestMapping("/test")
     public ModelAndView test(){
         ModelAndView mav = new ModelAndView("/simpleWebRTCDemo");
-        String uid = String.valueOf(Math.random()*36).substring(2);
-        System.out.println(uid);
+        mav.addObject("wsUrl", Common.WEBSOCKET_Client_URL);
         return mav;
     }
 
@@ -58,9 +61,4 @@ public class MessageController {
         return object.toJSONString();
     }
 
-    @GetMapping("/webrtc")
-    public ModelAndView test1(){
-        ModelAndView mav = new ModelAndView("/webrtc");
-        return mav;
-    }
 }

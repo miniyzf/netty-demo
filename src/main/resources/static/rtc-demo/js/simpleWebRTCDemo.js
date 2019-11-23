@@ -8,7 +8,7 @@ var room = "123";
 if(!window.WebSocket){
     console.log("您的浏览器不支持WebSocket协议！");
 }else {
-    socket = new WebSocket("ws://192.168.0.168:8083/wsPath?uid="+userId);
+    socket = new WebSocket(wsUrl + "?uid="+userId);
 
     socket.onopen =  function() {
         console.log("Signal server connected !");

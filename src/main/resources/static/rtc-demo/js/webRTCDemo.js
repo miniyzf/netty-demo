@@ -3,7 +3,7 @@ const MESSAGE_TYPE_ANSWER = 0x02;
 const MESSAGE_TYPE_CANDIDATE = 0x03;
 const MESSAGE_TYPE_HANGUP = 0x04;
 
-var localUserId = Math.random().toString(36).substr(2); // store local userId
+var localUserId = Math.random().toString(32).substr(2); // store local userId
 var localStream; // local video stream object
 var pc = null; // webrtc RTCPeerConnection
 var socket = null;
@@ -15,7 +15,7 @@ var room = "123";
 if(!window.WebSocket){
     console.log("您的浏览器不支持WebSocket协议！");
 }else {
-    socket = new WebSocket("ws://192.168.0.168:8083/wsPath?uid="+localUserId);
+    socket = new WebSocket(wsUrl + "?uid="+localUserId);
 
     socket.onopen =  function() {
         console.log("Signal server connected !");

@@ -1,5 +1,6 @@
 package com.example.netty.handler;
 
+import com.example.netty.common.Common;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -19,10 +20,10 @@ public class NettyServer {
     
     private Logger logger = LoggerFactory.getLogger(NettyServer.class);
     
-    private final int port;
+    private final int port = Common.WEBSOCKET_PORT;
 
-    public NettyServer(int port) {
-        this.port = port;
+    public NettyServer() {
+
     }
 
     public void start() throws Exception {
@@ -72,7 +73,7 @@ public class NettyServer {
                             // 自定义 handler 处理类（必须在 WebSocketServerProtocolHandler 之前）
                             channelPipeline.addLast(new MyWebSocketHandler());
                             // 为客户端指定路由 /wsPath (可自定义)
-                            channelPipeline.addLast(new WebSocketServerProtocolHandler("/wsPath", null, true, 65536 * 10));
+                            channelPipeline.addLast(new WebSocketServerProtocolHandler(Common.WEBSOCKET_PATH, null, true, 65536 * 10));
                         }
                     });
 

@@ -12,7 +12,7 @@ public class NettyDemoApplication {
         SpringApplication.run(NettyDemoApplication.class, args);
 
         try {
-            new NettyServer(Common.WEB_SOCKET_PORT).start();
+            new NettyServer().start();
         }catch(Exception e) {
             System.out.println("NettyServerError:"+e.getMessage());
         }

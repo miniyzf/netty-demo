@@ -25,9 +25,12 @@
             <textarea id="messages" style="width: 1000px;height: 300px;display: block;"></textarea>
         </form>
 
-    <script th:src="@{/static/rtc-demo/js/latest-v2.js}"></script>
-    <script th:src="@{/static/rtc-demo/js/simpleWebRTCDemo.js}"></script>
+
 
 </body>
-
+<script>
+    var wsUrl = '[[${wsUrl}]]';
+</script>
+<script th:src="@{/static/rtc-demo/js/latest-v2.js}"></script>
+<script th:src="@{/static/rtc-demo/js/simpleWebRTCDemo.js}"></script>
 </html>

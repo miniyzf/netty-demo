@@ -243,7 +243,7 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
             return;
         }
         // 正常WebSocket的Http连接请求，构造握手响应返回
-        WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(Common.WEB_SOCKET_URL, null, false);
+        WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(Common.WEBSOCKET_Server_URL, null, false);
         handshaker = wsFactory.newHandshaker(req);
         if (handshaker == null) {// 无法处理的websocket版本
             WebSocketServerHandshakerFactory.sendUnsupportedWebSocketVersionResponse(ctx.channel());

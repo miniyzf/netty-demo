@@ -28,9 +28,12 @@
         <textarea id="message" style="width: 640px;height: 300px;display: block;"></textarea>
     </div>
 
-    <script th:src="@{/static/rtc-demo/js/adapter-latest.js}"></script>
-    <script src="static/rtc-demo/js/webRTCDemo.js"></script>
+
 
 </body>
-
+<script>
+    var wsUrl = '[[${wsUrl}]]';
+</script>
+<script th:src="@{/static/rtc-demo/js/adapter-latest.js}"></script>
+<script src="static/rtc-demo/js/webRTCDemo.js"></script>
 </html>
