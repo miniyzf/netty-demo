@@ -7,9 +7,11 @@
 <body>
 <form onSubmit="return false;">
     <label>ID</label><input type="text" name="uid" th:value="${uid}" /> <br />
-    <label>消息</label><input type="text" id="message" name="message" value="" placeholder="这里输入消息" style="min-height: 250px;width: 1000px;"/> <br />
-    <br /> <input id="btn" type="button" value="发送ws消息"
-                  onClick="send(JSON.stringify({uid:this.form.uid.value,msg:this.form.message.value,type:1}))" />
+    <label></label><textarea id="message" value="" placeholder="这里输入消息" rows="1" style="min-height: 250px;width: 1024px;"></textarea> <br />
+    <br /> <input id="btn" type="button" value="发送JSON字符串"
+                  onClick="send({uid:this.form.uid.value,msg:this.form.message.value,type:1})" />
+    <input id="btn1" type="button" value="发送字节流"
+           onClick="send({uid:this.form.uid.value,msg:this.form.message.value,type:2})" />
     <hr color="black" />
     <h3>netty</h3>
     <textarea id="responseText" style="width: 1024px;height: 300px;"></textarea>
@@ -25,11 +27,13 @@
         socket = new WebSocket(wsUrl + "?uid="+uid);
 
         socket.onmessage = function(event){
-            // console.log("接收：" + (++m));
-
-            var message = JSON.parse(event.data);
-            var ta = document.getElementById('responseText');
-            ta.value += "【" + message.uid + "】" +message.msg+"\r\n";
+            var data = event.data;
+            if(typeof data == 'string'){
+                doSomething(data);
+            }
+            if(data instanceof Blob){
+                doReceive(data);
+            }
         };
         socket.onopen = function(event){
             var ta = document.getElementById('responseText');
@@ -46,12 +50,77 @@
         if(!window.WebSocket){return;}
         if(socket.readyState == WebSocket.OPEN){
             // console.log(uid+"send前buf："+socket.bufferedAmount);
-            socket.send(message);
+            if(message.type == 1){
+                socket.send(JSON.stringify(message));
+            }else if(message.type == 2){
+                socket.send(doSend(encodeUtf8(JSON.stringify(message))));
+            }
             // console.log(uid+"send后buf："+socket.bufferedAmount);
             // console.log("发送：" + (++n));
         }else{
             console.log("WebSocket 连接没有建立成功！");
         }
+    }
+    function doSomething(jsonStr) {
+        var message = JSON.parse(jsonStr);
+        var ta = document.getElementById('responseText');
+        ta.value += "【" + message.uid + "】" +message.msg+"\r\n";
+    }
+    function encodeUtf8(text) {
+        var code = encodeURIComponent(text);
+        // console.log(code);
+        // %7B%22uid%22%3A%22048332%22%2C%22msg%22%3A%22%E9%98%BF%E4%B8%89%22%2C%22type%22%3A1%7D
+        var bytes = [];
+        for (var i = 0; i < code.length; i++) {
+            var c = code.charAt(i);
+            if (c === '%') {
+                var hex = code.charAt(i + 1) + code.charAt(i + 2);
+                var hexVal = parseInt(hex, 16);
+                bytes.push(hexVal);
+                i += 2;
+            } else {
+                bytes.push(c.charCodeAt(0));
+            }
+        }
+        return bytes;
+    }
+    function decodeUtf8(bytes) {
+        var encoded = "";
+        for (var i = 0; i < bytes.length; i++) {
+            encoded += '%' + bytes[i].toString(16);
+        }
+        return decodeURIComponent(encoded);
+    }
+    function doSend(bytes) {
+        var buffer = new ArrayBuffer(bytes.length + 4);
+        var view = new DataView(buffer);
+        view.setUint32(0, bytes.length);
+        for (var i = 0; i < bytes.length; i++) {
+            view.setUint8(i + 3, bytes[i]);
+        }
+        return view;
+    }
+    function doReceive(data) {
+        var receive = [];
+        var reader = new FileReader();
+        // reader.readAsText(data, "UTF-8");
+        // reader.readAsText(data,"gbk");
+        reader.readAsArrayBuffer(data);
+        reader.onload = function (e) {
+            var buffer = reader.result;
+            // var buffer = e.target.result;
+            receive = receive.concat(Array.from(new Uint8Array(buffer)));
+            if (receive.length < 4) {
+                return;
+            }
+
+            // var bytes = receive.slice(3, receive.length-1);// 服务端返回原ByteBuf
+            var bytes = receive.slice(0, receive.length);// 服务端返回新包装后ByteBuf
+            var message = decodeUtf8(bytes);
+            doSomething(message);
+
+            receive = receive.slice(length + 4);
+        };
     }
 </script>
 <script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>

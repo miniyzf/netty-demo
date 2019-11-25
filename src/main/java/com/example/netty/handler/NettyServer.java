@@ -65,7 +65,7 @@ public class NettyServer {
                             // 为大数据流添加支持
                             channelPipeline.addLast(new ChunkedWriteHandler());
                             // 聚合器：聚合了FullHTTPRequest、FullHTTPResponse。。。
-                            channelPipeline.addLast(new HttpObjectAggregator(8192));
+                            channelPipeline.addLast(new HttpObjectAggregator(65536));
 
                             // ------------------以上是用于支持Http协议------------------
                             // ------------------以下是用于支持WebSoket------------------

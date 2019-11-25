@@ -181,7 +181,7 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
             return;
         }
 
-        // 每当从服务端读到客户端写入信息时，将信息写入缓冲区，写完后刷到对应客户端
+        // 文本
         if (frame instanceof TextWebSocketFrame) {
             TextWebSocketFrame msg = (TextWebSocketFrame) frame;
 
@@ -213,7 +213,6 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
             }
 
 
-
             /*Channel cur_channel = ctx.channel();
             for (Channel channel : channelGroup) {
                 if (channel != cur_channel) {
@@ -226,7 +225,29 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
             // 群发消息
 //            channelGroup.writeAndFlush(msg.text());
         }
+        // 二进制流
+        if(frame instanceof BinaryWebSocketFrame){
+            ByteBuf buf = ((BinaryWebSocketFrame)frame).content();
+            /*byte[] b = new byte[buf.capacity()];
+            buf.getBytes(buf.readerIndex(), b);
+            String str = new String(b);*/
+            String str = buf.toString(CharsetUtil.UTF_8);
 
+            JSONObject object = null;
+            try {
+                object = JSONObject.fromObject(str);
+            } catch (Exception e) {
+                object = JSONObject.fromObject("{\"uid\":\""+clientCU.get(ctx.channel())+"\",\"msg\":\"消息接收异常\",\"type\":2}");
+                //e.printStackTrace();
+            }
+            ByteBuf msg1 = Unpooled.copiedBuffer(object.toString(),CharsetUtil.UTF_8);
+            ByteBuf msg2 = Unpooled.wrappedBuffer(object.toString().getBytes(CharsetUtil.UTF_8));
+
+            byte[] bytes = object.toString().getBytes(CharsetUtil.UTF_8);
+            ByteBuf msg3 = Unpooled.directBuffer(bytes.length);
+            msg3.writeBytes(bytes);
+            channelGroup.writeAndFlush(new BinaryWebSocketFrame(msg3));
+        }
     }
 
     /**
@@ -278,19 +299,6 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     private void sendAllMessage(ChannelHandlerContext ctx,String message){
         //发送给指定的人
         Channel channel = ctx.channel();
@@ -323,5 +331,18 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
         }else{
             return map;
         }
+    }
+
+    public String convertByteBufToString(ByteBuf buf) {
+        String str;
+        int len = buf.capacity();
+        if(buf.hasArray()) { // 处理堆缓冲区
+            str = new String(buf.array(), buf.arrayOffset() + buf.readerIndex(), len);
+        } else { // 处理直接缓冲区以及复合缓冲区
+            byte[] bytes = new byte[len];
+            buf.getBytes(buf.readerIndex(), bytes);
+            str = new String(bytes, 0, len);
+        }
+        return str;
     }
 }
